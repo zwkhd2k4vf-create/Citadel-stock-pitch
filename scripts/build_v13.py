@@ -32,7 +32,7 @@ for rid, img in {'rId7': 'image2.png', 'rId9': 'image4.png', 'rId11': 'image6.pn
 open(relp, 'w', encoding='utf-8').write(r)
 
 EMU = 914400
-FLOAT_W = int(2.5 * EMU)
+FLOAT_W = int(2.75 * EMU)
 GAP = 137160
 sect = re.search(r'<w:sectPr.*?</w:sectPr>', x, re.S).group(0)
 head = x[:x.index('<w:body>') + len('<w:body>')]
@@ -57,15 +57,19 @@ def graphic(key, cx, cy, n):
             '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic>')
 
 
+WIDTHS = {'ex1': int(2.45 * EMU), 'ex2': int(2.8 * EMU), 'ex3': int(2.8 * EMU)}
+
+
 def anchor(key, n):
-    cy = round(FLOAT_W * png_ratio(key))
+    fw = WIDTHS.get(key, FLOAT_W)
+    cy = round(fw * png_ratio(key))
     return ('<w:r><w:rPr><w:noProof/></w:rPr><w:drawing>'
             f'<wp:anchor distT="0" distB="45720" distL="{GAP}" distR="0" simplePos="0" relativeHeight="{251659264 + n}" '
             'behindDoc="0" locked="0" layoutInCell="1" allowOverlap="0"><wp:simplePos x="0" y="0"/>'
             '<wp:positionH relativeFrom="margin"><wp:align>right</wp:align></wp:positionH>'
             '<wp:positionV relativeFrom="paragraph"><wp:posOffset>0</wp:posOffset></wp:positionV>'
-            f'<wp:extent cx="{FLOAT_W}" cy="{cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:wrapSquare wrapText="left"/>'
-            f'<wp:docPr id="{100 + n}" name="{key}"/>{graphic(key, FLOAT_W, cy, n)}</wp:anchor></w:drawing></w:r>')
+            f'<wp:extent cx="{fw}" cy="{cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:wrapSquare wrapText="left"/>'
+            f'<wp:docPr id="{100 + n}" name="{key}"/>{graphic(key, fw, cy, n)}</wp:anchor></w:drawing></w:r>')
 
 
 def inline(key, width_in, n):
