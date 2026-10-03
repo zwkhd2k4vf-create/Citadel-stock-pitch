@@ -3,9 +3,9 @@
 What changes:
   * Thesis 1 and Thesis 2 now feed the model through two KPIs, each built in its own sheet:
       KPI 1 Price Build   - fare-panel cuts applied to unsold cabins, by brand and region
-      KPI 2 Booking Build - booking shortfall from deposits -> occupancy and late discounts
+      KPI 2 Booking Build - booking shortfall from deposits to occupancy and late discounts
   * Fleet Qtr Build: ship x quarter capacity (bottom-up quarterly capacity growth for 2027)
-  * Bridge Build: live consensus-case -> base-case EBITDA bridge, one step per KPI
+  * Bridge Build: live consensus-case to base-case EBITDA bridge, one step per KPI
   * Thesis to KPIs: one-page map from the alternative data to the model and to consensus
   * 'Alt Data Build' becomes 'Fare Panel' (data only); the duplicate 'Alt Data' sheet is removed
 
@@ -209,7 +209,7 @@ fq.freeze_panes = 'C6'
 k1 = new_sheet('KPI 1 Price Build', {'A': 2, 'B': 62, 'C': 48, 'D': 11, 'E': 11, 'F': 11, 'G': 11, 'H': 11, 'I': 11, 'J': 11})
 K1 = "'KPI 1 Price Build'!"
 K2 = "'KPI 2 Booking Build'!"
-bar(k1, 'B2', 'KPI 1 Price Build (Thesis 1): fare cuts on unsold cabins -> ticket revenue per passenger day')
+bar(k1, 'B2', 'KPI 1 Price Build (Thesis 1): fare cuts on unsold cabins to ticket revenue per passenger day')
 note(k1, 'B3', 'Thesis 1: NCL is cutting prices to fill Caribbean ships because it is losing share there. The fare panel measures the '
      'cuts; this sheet applies them only to cabins NCL still has to sell, by brand and region. Output (section E) feeds the Net Yield Build.')
 put(k1, 'C5', 'Logic / source', bold=True)
@@ -374,7 +374,7 @@ note(k1, 'B58', 'Blue on gray = assumptions; blue = data; black = formulas; gree
 
 # ---------------------------------------------------------------- 4. KPI 2 Booking Build (Thesis 2)
 k2 = new_sheet('KPI 2 Booking Build', {'A': 2, 'B': 62, 'C': 48, 'D': 11, 'E': 11, 'F': 11, 'G': 11, 'H': 11, 'I': 11, 'J': 11})
-bar(k2, 'B2', 'KPI 2 Booking Build (Thesis 2): booking shortfall -> occupancy and late discounts')
+bar(k2, 'B2', 'KPI 2 Booking Build (Thesis 2): booking shortfall to occupancy and late discounts')
 note(k2, 'B3', "Thesis 2: NCL's Best Price Guarantee removes the reason to book early, so the booking shortfall persists and NCL fills it "
      'late at a discount, leaving some cabins empty. Deposits size the shortfall; this sheet splits it into empty cabins (KPI 2: '
      'occupancy) and late-sold cabins (price, 2H27).')
@@ -613,16 +613,16 @@ for case, (r0, occ, t1src, t2src, leak) in blocks.items():
         lk = f"+{K2}{c}52" if leak else ''
         fx(ny, f'{n}{tick}', f'={prior[n]}{tick}*(1+{n}{calc0 + 2}+{n}{rmix}{lk})', DOL)
 
-# ---------------------------------------------------------------- 6. Bridge Build (live consensus -> base bridge)
+# ---------------------------------------------------------------- 6. Bridge Build (live consensus to base bridge)
 bb = new_sheet('Bridge Build', {'A': 2, 'B': 58, 'C': 30, 'D': 11, 'E': 11, 'F': 11, 'G': 11, 'H': 11, 'I': 11, 'J': 12})
 bar(bb, 'B2', 'Bridge Build: 2027 EBITDA from the consensus case to our base case, one KPI at a time')
 note(bb, 'B3', 'Each block reruns the quarterly net yield with one more group of base-case inputs switched on, in order. The change '
      'between blocks is the EBITDA attributable to that group. The last step must equal DCF!E42 (checks in row 13).')
 steps = [('Consensus case (bull inputs)', {}),
          ('2H26 exit (3Q-4Q26 inputs)', {'X'}),
-         ('Thesis 1 -> KPI 1: fare cuts on unsold cabins', {'X', 'T1'}),
-         ('Thesis 2 -> KPI 1: late discounts on the shortfall', {'X', 'T1', 'T2'}),
-         ('Thesis 2 -> KPI 2: occupancy', {'X', 'T1', 'T2', 'OCC'}),
+         ('Thesis 1, ticket price: fare cuts on unsold cabins', {'X', 'T1'}),
+         ('Thesis 2, ticket price: late discounts on the shortfall', {'X', 'T1', 'T2'}),
+         ('Thesis 2, occupancy: cabins that sail empty', {'X', 'T1', 'T2', 'OCC'}),
          ('Other: onboard spend growth', {'X', 'T1', 'T2', 'OCC', 'OB'})]
 put(bb, 'B5', 'Step', bold=True)
 put(bb, 'D5', '2027 EBITDA', bold=True)
@@ -682,12 +682,12 @@ put(bb, 'B13', 'Checks: block 0 = DCF!E41, final = DCF!E42 (both should be 0)', 
 fx(bb, 'D13', '=D6-DCF!E41', MM)
 fx(bb, 'E13', '=D12-DCF!E42', MM)
 
-# Model vs Consensus bridge now links to the live build, ordered: consensus EPS -> Street EBITDA -> ours
+# Model vs Consensus bridge now links to the live build, ordered: consensus EPS to Street EBITDA to ours
 mc = wb['Model vs Consensus']
 for r in range(22, 42):
     for c in 'BCDEF':
         mc[f'{c}{r}'].value = None
-sec(mc, 'B22', '2027 Adjusted EBITDA bridge: consensus EPS case -> consensus case at run-rate costs (Street EBITDA) -> base case')
+sec(mc, 'B22', '2027 Adjusted EBITDA bridge: consensus EPS case, then consensus case at run-rate costs (Street EBITDA), then base case')
 put(mc, 'B23', 'Step', bold=True)
 put(mc, 'C23', '$mm', bold=True)
 put(mc, 'D23', 'Street-implied', bold=True)
@@ -700,11 +700,11 @@ put(mc, 'B26', 'Consensus case at run-rate costs (compare: Street-implied EBITDA
 fx(mc, 'C26', '=C24+C25', MM, bold=True)
 fx(mc, 'D26', '=Consensus!C57', MM)
 fx(mc, 'E26', '=C26/D26-1', PCT)
-steps_mc = [('Fare panel -> 4Q26 exit rate (Q4 2026 sailings cut 36%)', 7),
-            ('Fare panel -> KPI 1: 1H27 ticket price (Thesis 1)', 8),
-            ('Deposits -> KPI 1: 2H27 late discounts on the shortfall (Thesis 2)', 9),
-            ('Deposits -> KPI 2: occupancy (Thesis 2)', 10),
-            ('Guest mix from discount-filled ships -> onboard spend (both theses)', 11)]
+steps_mc = [('Fare panel: 4Q26 exit rate (Q4 2026 sailings cut 36%)', 7),
+            ('Fare panel: 1H27 ticket price (Thesis 1)', 8),
+            ('Deposits: 2H27 late discounts on the shortfall (Thesis 2)', 9),
+            ('Deposits: occupancy (Thesis 2)', 10),
+            ('Guest mix of discount-filled ships: onboard spend (both theses)', 11)]
 for i, (lab, br) in enumerate(steps_mc):
     put(mc, f'B{27 + i}', lab)
     fx(mc, f'C{27 + i}', f"='Bridge Build'!E{br}", MM)
@@ -828,7 +828,7 @@ fx(tk, 'D44', '=C44/DCF!I2-1', PCT)
 put(tk, 'B45', 'Value at 9.0x on our EBITDA (multiple risk)')
 fx(tk, 'C45', '=(DCF!E42*9-DCF!F22)/DCF!L33', DOL)
 fx(tk, 'D45', '=C45/DCF!I2-1', PCT)
-put(tk, 'B46', 'EV / TTM EBITDA: Sep 2025 -> Mar 2026 (net yield turned negative)')
+put(tk, 'B46', 'EV / TTM EBITDA: Sep 2025 to Mar 2026 (net yield turned negative)')
 fx(tk, 'C46', "='Multiple vs Net Yield'!H24", '0.0x')
 fx(tk, 'D46', "='Multiple vs Net Yield'!H26", '0.0x')
 
@@ -885,8 +885,8 @@ sheet_notes = [
     ('Model vs Consensus / Bridge Build', 'Model vs. consensus; live 2027 EBITDA bridge, one step per KPI'),
     ('Operating Model', 'Annual model FY2024A-FY2030E: capacity, net yield, revenue, costs, P&L, cash flow, ROIC'),
     ('Net Yield Build', 'Quarterly net yield for the three cases; KPI rows 24 / 51 / 78 (price) and 13 / 40 / 67 (occupancy)'),
-    ('KPI 1 Price Build', 'Thesis 1: fare cuts on unsold cabins by brand and region -> ticket price per passenger day'),
-    ('KPI 2 Booking Build', 'Thesis 2: booking shortfall from deposits -> occupancy and late discounts; price-guarantee claims'),
+    ('KPI 1 Price Build', 'Thesis 1: fare cuts on unsold cabins by brand and region to ticket price per passenger day'),
+    ('KPI 2 Booking Build', 'Thesis 2: booking shortfall from deposits to occupancy and late discounts; price-guarantee claims'),
     ('Fleet Build / Fleet Qtr Build', 'Ship-level berths; ship x quarter capacity days (504 rows) for quarterly capacity growth'),
     ('Consensus', 'Annual and quarterly consensus, ratings, targets, guidance, decoding the target'),
     ('Quarterly (A) / Income / Cash Flow / Balance', 'Historical results: 8-K releases and SEC XBRL'),
