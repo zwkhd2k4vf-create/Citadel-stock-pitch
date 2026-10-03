@@ -881,7 +881,7 @@ mm = wb['Model>>>']
 put(mm, 'C21', 'Price-implied steady-state EBITDA at 9% ($mm)')
 fx(mm, 'I21', '=DCF!E31', MM0)
 sheet_notes = [
-    ('Thesis to KPIs', 'Start here: data -> KPI -> model -> consensus, with dated checks'),
+    ('Thesis to KPIs', 'Start here: data -> KPI -> model -> consensus, with dated checks and critiques'),
     ('DCF', 'Valuation: case switch (C9), WACC, reverse DCF, EV/EBITDA, DCF cross-check, scenarios, sensitivity'),
     ('Model vs Consensus / Bridge Build', 'Model vs. consensus; live 2027 EBITDA bridge, one step per KPI'),
     ('Operating Model', 'Annual model FY2024A-FY2030E: capacity, net yield, revenue, costs, P&L, cash flow, ROIC'),

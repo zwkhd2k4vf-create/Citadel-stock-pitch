@@ -57,7 +57,7 @@ def graphic(key, cx, cy, n):
             '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic>')
 
 
-WIDTHS = {'ex1': int(2.45 * EMU), 'ex2': int(2.8 * EMU), 'ex3': int(2.6 * EMU)}
+WIDTHS = {'ex1': int(2.45 * EMU), 'ex2': int(2.6 * EMU), 'ex3': int(2.5 * EMU)}
 
 
 def anchor(key, n):
@@ -91,7 +91,7 @@ def para(inner, before=0, after=40, keep=False, brk=False, jc='both'):
             f'<w:jc w:val="{jc}"/></w:pPr>{inner}</w:p>')
 
 
-def table(rows, widths, bold_rows=(0,), shade_rows=(0,), total_rows=(), indent=0):
+def table(rows, widths, bold_rows=(0,), shade_rows=(0,), total_rows=(), indent=0, left_cols=1):
     border = ''.join(f'<w:{s} w:val="single" w:sz="4" w:space="0" w:color="808080"/>'
                      for s in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'))
     xml = (f'<w:tbl><w:tblPr><w:tblW w:w="{sum(widths)}" w:type="dxa"/>'
@@ -106,7 +106,7 @@ def table(rows, widths, bold_rows=(0,), shade_rows=(0,), total_rows=(), indent=0
             fill = 'D9D9D9' if i in shade_rows else ('F2F2F2' if i in total_rows else None)
             shd = f'<w:shd w:val="clear" w:color="auto" w:fill="{fill}"/>' if fill else ''
             b = i in bold_rows or i in total_rows or (j == 0 and i not in shade_rows and False)
-            jc = '' if j == 0 else '<w:jc w:val="center"/>'
+            jc = '' if j < left_cols else '<w:jc w:val="center"/>'
             xml += (f'<w:tc><w:tcPr><w:tcW w:w="{w}" w:type="dxa"/>{shd}<w:vAlign w:val="center"/></w:tcPr>'
                     f'<w:p><w:pPr><w:spacing w:after="0"/>{jc}</w:pPr>{run(cell, bold=b, sz=15) if cell else ""}</w:p></w:tc>')
         xml += '</w:tr>'
