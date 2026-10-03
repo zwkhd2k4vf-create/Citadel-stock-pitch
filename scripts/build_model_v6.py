@@ -471,8 +471,74 @@ put(k2, 'B59', 'Thesis 2 wrong if at or above ($mm)')
 fx(k2, 'D59', '=Deposits!C73', MM0)
 put(k2, 'B60', 'Back-test: share of quarters the indicator called the direction of net yield')
 fx(k2, 'D60', '=Deposits!F31')
-note(k2, 'B62', 'Sources: SEC XBRL (customer deposits); NCLH 8-Ks and 2Q26 call; ncl.com Best Price Guarantee terms; fare panel. '
+note(k2, 'B97', 'Sources: SEC XBRL (customer deposits); NCLH 8-Ks and 2Q26 call; ncl.com Best Price Guarantee terms; fare panel. '
      'Blue on gray = assumptions.')
+
+sec(k2, 'B64', 'F. Timing: since COVID, deposits lead net yield by about four quarters')
+put(k2, 'B65', 'Advance ticket sales as a share of annual revenue, 2016-18 average')
+fx(k2, 'D65', "=AVERAGE('Balance (A)'!D26:F26)")
+put(k2, 'B66', 'Same, 2023-25 average')
+fx(k2, 'D66', "=AVERAGE('Balance (A)'!K26:M26)")
+note(k2, 'B67', 'Guests book further ahead than before COVID, so deposits run further ahead of sailings, and of net yield.')
+for c, h in zip('BCDEFG', ['Quarter end', 'Deposits per future berth-day y/y', 'Net yield y/y, 1 qtr later', '2 qtrs later',
+                           '3 qtrs later', '4 qtrs later']):
+    put(k2, f'{c}69', h, bold=True, wrap=True)
+for c, h in zip('IJK', ['Net yield series', 'Net yield y/y', 'Source']):
+    put(k2, f'{c}69', h, bold=True, wrap=True)
+k2.row_dimensions[69].height = 28
+k2.column_dimensions['J'].width = 11
+k2.column_dimensions['K'].width = 14
+qlab = ['Mar-24', 'Jun-24', 'Sep-24', 'Dec-24', 'Mar-25', 'Jun-25', 'Sep-25', 'Dec-25', 'Mar-26', 'Jun-26', 'Sep-26', 'Dec-26',
+        'Mar-27', 'Jun-27']
+for i, q in enumerate(qlab):
+    r = 70 + i
+    put(k2, f'I{r}', q)
+    if i < 10:
+        fx(k2, f'J{r}', f"='Multiple vs Net Yield'!I{18 + i}")
+        put(k2, f'K{r}', 'reported')
+    elif i == 10:
+        fx(k2, f'J{r}', '=Consensus!C41')
+        put(k2, f'K{r}', '3Q26 guide')
+    elif i == 11:
+        fx(k2, f'J{r}', '=Consensus!C42')
+        put(k2, f'K{r}', '4Q26 implied')
+    else:
+        fx(k2, f'J{r}', '=""', 'General')
+        put(k2, f'K{r}', 'not yet known')
+for i in range(10):
+    r = 70 + i
+    fx(k2, f'B{r}', f'=Deposits!B{17 + i}', 'mmm-yy')
+    fx(k2, f'C{r}', f'=Deposits!F{17 + i}')
+    for k, c in enumerate('DEFG', start=1):
+        fx(k2, f'{c}{r}', f'=IF(INDEX($J$70:$J$83,{i + 1 + k})="","",INDEX($J$70:$J$83,{i + 1 + k}))')
+put(k2, 'B85', 'Lead (quarters)', bold=True)
+for c, h in zip('DEFG', ['1', '2', '3', '4']):
+    put(k2, f'{c}85', h, bold=True).alignment = Alignment(horizontal='right')
+put(k2, 'B86', 'Quarters with a known outcome')
+put(k2, 'B87', 'Direction called correctly')
+put(k2, 'B88', 'Correlation')
+for c in 'DEFG':
+    fx(k2, f'{c}86', f'=COUNT({c}70:{c}79)', '0')
+    fx(k2, f'{c}87', f'=SUMPRODUCT(ISNUMBER({c}70:{c}79)*(({c}70:{c}79>0)=($C$70:$C$79>0)))', '0')
+    fx(k2, f'{c}88', f'=CORREL($C$70:$C$79,{c}70:{c}79)', '0.00')
+put(k2, 'B89', 'Direction called at a 4-quarter lead, reported outcomes only (of 6)')
+fx(k2, 'G89', '=SUMPRODUCT(--((C70:C75>0)=(G70:G75>0)))', '0')
+note(k2, 'B90', 'Outcomes include the 3Q26 guide and 4Q26 implied net yield. 2016-19 is not informative: the indicator and net yield were '
+     'positive in every quarter.')
+put(k2, 'B92', 'Fit at a 4-quarter lead (net yield = intercept + slope x indicator)', bold=True)
+for c, h in zip('DEF', ['Indicator fit', 'Our base', 'Consensus case']):
+    put(k2, f'{c}92', h, bold=True).alignment = Alignment(horizontal='right')
+put(k2, 'B93', 'Slope / intercept')
+fx(k2, 'D93', '=SLOPE(G70:G79,C70:C79)', '0.00')
+fx(k2, 'E93', '=INTERCEPT(G70:G79,C70:C79)', PCT2)
+put(k2, 'B94', 'Implied 1Q27 net yield (Mar 31, 2026 reading) / 2Q27 (Jun 30 reading)')
+fx(k2, 'D94', '=E93+D93*C78', PCT)
+fx(k2, 'E94', '=E93+D93*C79', PCT)
+put(k2, 'B95', '1H27 net yield: indicator fit vs. our base vs. consensus case', bold=True)
+fx(k2, 'D95', '=AVERAGE(D94:E94)', PCT, bold=True)
+fx(k2, 'E95', "=AVERAGE('Net Yield Build'!N58:O58)", PCT, bold=True)
+fx(k2, 'F95', "=AVERAGE('Net Yield Build'!N31:O31)", PCT, bold=True)
+note(k2, 'B96', 'Eight quarters, two of them guidance: a cross-check on direction and size, not a forecast input.')
 
 # ---------------------------------------------------------------- 5. Net Yield Build rewiring
 ny = wb['Net Yield Build']
@@ -673,7 +739,7 @@ t_rows = [
      'KPI 1: 1H27 ticket price',
      f'=AVERAGE({NY}N24:O24)', f'=AVERAGE({NY}N51:O51)', "='Model vs Consensus'!C26"),
     ('Thesis 2: the price guarantee keeps guests from booking early',
-     f'="Deposits per future berth-day "&TEXT(Deposits!F26,"0.0%")&" y/y; 7th straight decline"',
+     f'="Deposits per future berth-day "&TEXT(Deposits!F26,"0.0%")&" y/y; since COVID they lead net yield by ~4 quarters ("&{K2}G87&" of "&{K2}G86&")"',
      'A booking shortfall NCL fills late at a discount',
      'KPI 1: 2H27 ticket price',
      f'=AVERAGE({NY}P24:Q24)', f'=AVERAGE({NY}P51:Q51)', "='Model vs Consensus'!C27"),

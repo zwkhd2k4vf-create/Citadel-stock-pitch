@@ -75,24 +75,33 @@ ax.legend(frameon=False, fontsize=7, loc='lower right', bbox_to_anchor=(1.0, 1.0
 finish(fig, ax, 'Exhibit 2: Fare change, 1H27 sailings (%)',
        'Median lowest fare vs. its own 90-day average. Source: allaboarddeals.com,\n4,783 itineraries, Oct 2, 2026.', 'ex2_fares')
 
-# Exhibit 3: deposit indicator vs. net yield
-qs = [ex[f'B{r}'].value for r in range(17, 26)]
-dep = [ex[f'C{r}'].value for r in range(17, 26)]
-ny = [ex[f'D{r}'].value for r in range(17, 26)]
-qs = ['Dec-24', 'Mar-25', 'Jun-25', 'Sep-25', 'Dec-25', 'Mar-26', 'Jun-26', 'Sep-26', 'Dec-26']
-fig, ax = plt.subplots(figsize=(W, 1.9))
-fig.subplots_adjust(left=0.1, right=0.97, top=0.8, bottom=0.2)
-xd = [i for i, d in enumerate(dep) if d is not None]
-ax.plot(xd, [dep[i] * 100 for i in xd], color=INK, lw=1.6, marker='o', ms=3, label='Deposits per future berth-day')
-ax.plot(range(7), [n * 100 for n in ny[:7]], color=MID, lw=1.6, marker='o', ms=3, label='Net yield')
-ax.plot([6, 7, 8], [ny[6] * 100, ny[7] * 100, ny[8] * 100], color=MID, lw=1.4, ls='--')
+# Exhibit 3: deposits shifted forward four quarters vs. net yield (the post-COVID lead)
+k2 = wb['KPI 2 Booking Build']
+nyb = wb['Net Yield Build']
+labels = [k2[f'I{r}'].value for r in range(70, 84)]                  # Mar-24 .. Jun-27
+dep_shift = [None] * 4 + [k2[f'C{r}'].value * 100 for r in range(70, 80)]   # plotted 4 quarters later
+ny_rep = [k2[f'J{r}'].value * 100 for r in range(70, 80)]            # reported Mar-24 .. Jun-26
+ny_guide = [ny_rep[-1], k2['J80'].value * 100, k2['J81'].value * 100]
+ours = [ny_guide[-1], nyb['N58'].value * 100, nyb['O58'].value * 100]
+cons = [ny_guide[-1], nyb['N31'].value * 100, nyb['O31'].value * 100]
+fig, ax = plt.subplots(figsize=(W, 1.95))
+fig.subplots_adjust(left=0.1, right=0.97, top=0.76, bottom=0.25)
+xs = list(range(14))
+ax.plot([x for x, v in zip(xs, dep_shift) if v is not None], [v for v in dep_shift if v is not None], color=INK, lw=1.6,
+        marker='o', ms=2.6, label='Deposits, 4 quarters earlier')
+ax.plot(xs[4:10], ny_rep[4:], color=MID, lw=1.6, marker='o', ms=2.6, label='Net yield')
+ax.plot([9, 10, 11], ny_guide, color=MID, lw=1.4, ls='--')
+ax.plot([11, 12, 13], ours, color=MID, lw=1.2, ls='--', marker='o', ms=2.6, mfc='white')
+ax.plot([11, 12, 13], cons, color=LIGHT, lw=1.2, ls=':', marker='o', ms=2.6, mfc='white')
+ax.text(13.15, ours[-1], 'Ours', va='center', fontsize=6, color='#404040')
+ax.text(13.15, cons[-1], 'Consensus', va='center', fontsize=6, color='#404040')
 ax.axhline(0, color='#808080', lw=0.6)
-ax.set_xticks([0, 2, 4, 6, 8], [qs[i] for i in (0, 2, 4, 6, 8)])
-ax.set_ylim(-11, 11)
-ax.annotate(f'{dep[6] * 100:.1f}%', (6, dep[6] * 100), xytext=(4, -9), textcoords='offset points', fontsize=6.5)
-ax.legend(frameon=False, fontsize=6.5, loc='lower left', bbox_to_anchor=(0.0, 1.0), ncol=2, handlelength=1.4, columnspacing=0.8)
-finish(fig, ax, 'Exhibit 3: NCLH deposits vs. net yield (% y/y)',
-       'Dashed: 3Q26 guide and 4Q26 implied. Source: SEC XBRL; NCLH 8-Ks.', 'ex3_deposits')
+ax.set_xticks([4, 6, 8, 10, 12], [labels[i] for i in (4, 6, 8, 10, 12)])
+ax.set_xlim(3.6, 15.6)
+ax.set_ylim(-11, 15)
+ax.legend(frameon=False, fontsize=6.3, loc='lower left', bbox_to_anchor=(0.0, 1.0), ncol=2, handlelength=1.4, columnspacing=0.8)
+finish(fig, ax, 'Exhibit 3: Deposits vs. net yield (% y/y)',
+       'Deposits per future berth-day shifted 4 quarters. Dashed: 3Q-4Q26\nguide, then 1H27 model. Source: SEC XBRL; 8-Ks; team model.', 'ex3_deposits')
 
 # Exhibit 4: 2027 EBITDA bridge, consensus case to ours
 mc = wb['Model vs Consensus']

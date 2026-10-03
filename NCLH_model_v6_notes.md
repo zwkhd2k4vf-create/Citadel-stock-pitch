@@ -28,6 +28,13 @@ The bridge is now live: the **Bridge Build** tab reruns the quarterly net yield 
 - **Fleet Qtr Build:** ship × quarter capacity days, 504 rows. 2027 quarterly capacity growth now comes from delivery and exit dates instead of typed-in numbers.
 - **Fare Panel:** the old *Alt Data Build*, now holding data only. Section H holds the summary statistics the memo quotes. The duplicate *Alt Data* tab is gone.
 
+## Deposit lag (KPI 2 Booking Build, section F)
+
+Since COVID, deposits lead net yield by about four quarters, not the one to two quarters seen before.
+- **Why:** guests book further ahead. Advance ticket sales were about 25% of annual revenue in 2016–18 and about 34% in 2023–25.
+- **Track record:** at a four-quarter lead, the indicator called the direction of net yield in 7 of 8 quarters. That is 5 of 6 counting reported quarters only; the other two outcomes are the 3Q26 guide and 4Q26 implied figure. At a one-quarter lead it called 6 of 10.
+- **What it implies for 1H27:** a simple fit over those eight quarters gives 1H27 net yield of about −3.9%, against −2.6% in our base case and −0.2% in the consensus case. This is a cross-check only, not a model input. Memo Exhibit 3 plots deposits shifted forward four quarters.
+
 ## Logic fixes that moved the numbers
 
 1. **Brand weighting.** v5 applied NCL's fare cuts to all NCLH capacity, including Oceania and Regent, whose fares show no cuts. That overstated Thesis 1 by about a third.
