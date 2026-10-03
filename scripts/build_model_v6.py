@@ -881,7 +881,6 @@ mm = wb['Model>>>']
 put(mm, 'C21', 'Price-implied steady-state EBITDA at 9% ($mm)')
 fx(mm, 'I21', '=DCF!E31', MM0)
 sheet_notes = [
-    ('Thesis to KPIs', 'Start here: data -> KPI -> model -> consensus, with dated checks and critiques'),
     ('DCF', 'Valuation: case switch (C9), WACC, reverse DCF, EV/EBITDA, DCF cross-check, scenarios, sensitivity'),
     ('Model vs Consensus / Bridge Build', 'Model vs. consensus; live 2027 EBITDA bridge, one step per KPI'),
     ('Operating Model', 'Annual model FY2024A-FY2030E: capacity, net yield, revenue, costs, P&L, cash flow, ROIC'),
@@ -929,7 +928,8 @@ for i, (lab, f) in enumerate([('2025 actual', "='Operating Model'!G52"), ('March
     fx(ex, f'C{44 + i}', f, MM0)
 
 del wb['Alt Data']
-order = ['Model>>>', 'Thesis to KPIs', 'DCF', 'Model vs Consensus', 'Bridge Build', 'Operating Model', 'Net Yield Build',
+del wb['Thesis to KPIs']
+order = ['Model>>>', 'DCF', 'Model vs Consensus', 'Bridge Build', 'Operating Model', 'Net Yield Build',
          'KPI 1 Price Build', 'KPI 2 Booking Build', 'Fleet Build', 'Fleet Qtr Build', 'Consensus', 'Filings>>>', 'Quarterly (A)',
          'Income (A)', 'Cash Flow (A)', 'Balance (A)', 'Alt Data>>>', 'Fare Panel', 'Deposits', 'Factor & Positioning',
          'Multiple vs Net Yield', 'Exhibit Data']
