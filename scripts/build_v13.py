@@ -57,7 +57,7 @@ def graphic(key, cx, cy, n):
             '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic>')
 
 
-WIDTHS = {'ex1': int(2.45 * EMU), 'ex2': int(2.8 * EMU), 'ex3': int(2.8 * EMU)}
+WIDTHS = {'ex1': int(2.45 * EMU), 'ex2': int(2.8 * EMU), 'ex3': int(2.6 * EMU)}
 
 
 def anchor(key, n):
@@ -85,9 +85,9 @@ def run(text, bold=False, sz=None, color=None):
     return f'<w:r>{"<w:rPr>" + rpr + "</w:rPr>" if rpr else ""}<w:t xml:space="preserve">{escape(text)}</w:t></w:r>'
 
 
-def para(inner, before=0, after=60, keep=False, brk=False, jc='both'):
+def para(inner, before=0, after=40, keep=False, brk=False, jc='both'):
     sp = f'<w:spacing w:before="{before}" w:after="{after}"/>' if before else f'<w:spacing w:after="{after}"/>'
-    return (f'<w:p><w:pPr>{"<w:keepLines/>" if keep else ""}{"<w:pageBreakBefore/>" if brk else ""}{sp}'
+    return (f'<w:p><w:pPr>{"<w:keepLines/>" if keep else ""}{"<w:pageBreakBefore/>" if brk else ""}<w:widowControl/>{sp}'
             f'<w:jc w:val="{jc}"/></w:pPr>{inner}</w:p>')
 
 
@@ -113,36 +113,37 @@ def table(rows, widths, bold_rows=(0,), shade_rows=(0,), total_rows=(), indent=0
     return xml + '</w:tbl>'
 
 
-GAP_BEFORE = 80
+GAP_BEFORE = 40
 body, n = [], 0
 
 
-def section(label, paras, chart=None, first=False, brk=False):
+def section(label, paras, chart=None, first=False, brk=False, chart_para=0):
+    """chart_para: which paragraph of the section carries the floating exhibit (kept on one page)."""
     global n
-    lead = ''
+    anchors = {}
     if chart:
         n += 1
-        lead = anchor(chart, n)
-    body.append(para(lead + run(label + ' ', True) + run(paras[0]), before=0 if (first or brk) else GAP_BEFORE,
-                     keep=bool(chart), brk=brk))
-    for p in paras[1:]:
-        body.append(para(run(p)))
+        anchors[chart_para] = anchor(chart, n)
+    body.append(para(anchors.get(0, '') + run(label + ' ', True) + run(paras[0]),
+                     before=0 if (first or brk) else GAP_BEFORE, keep=0 in anchors, brk=brk))
+    for i, p in enumerate(paras[1:], start=1):
+        body.append(para(anchors.get(i, '') + run(p), keep=i in anchors))
 
 
 for i, (label, paras, chart) in enumerate(M.PAGE1):
     section(label, paras, chart, first=(i == 0))
 for label, paras, chart in M.PAGE2:
-    section(label, paras, chart, brk=True)
+    section(label, paras, chart, chart_para=1)   # flows from page 1; exhibit sits with the deposits paragraph
 
 # split section: text + KPI table on the left, bridge chart on the right (borderless layout table)
 LW, RW = 6250, 4550
 n += 1
 left = (para(run(M.SPLIT_LABEL + ' ', True) + run(M.SPLIT_TEXT), after=60)
         + table(M.KPI_TABLE, [2700, 1150, 1150, 1000], total_rows=(len(M.KPI_TABLE) - 1,))
-        + '<w:p><w:pPr><w:spacing w:after="0"/></w:pPr></w:p>')
+        + '<w:p><w:pPr><w:spacing w:after="0" w:line="120" w:lineRule="exact"/><w:rPr><w:sz w:val="4"/></w:rPr></w:pPr></w:p>')
 right = para(inline('ex4', 3.12, n), after=0, jc='right')
 nob = ''.join(f'<w:{s} w:val="nil"/>' for s in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'))
-body.append(para('', before=0, after=0))
+body.append('<w:p><w:pPr><w:spacing w:after="0" w:line="120" w:lineRule="exact"/></w:pPr><w:r><w:rPr><w:sz w:val="4"/></w:rPr><w:br w:type="textWrapping" w:clear="all"/></w:r></w:p>')
 body.append(f'<w:tbl><w:tblPr><w:tblW w:w="{LW + RW}" w:type="dxa"/><w:tblBorders>{nob}</w:tblBorders><w:tblLayout w:type="fixed"/>'
             '<w:tblCellMar><w:left w:w="0" w:type="dxa"/><w:right w:w="0" w:type="dxa"/></w:tblCellMar></w:tblPr>'
             f'<w:tblGrid><w:gridCol w:w="{LW}"/><w:gridCol w:w="{RW}"/></w:tblGrid><w:tr><w:trPr><w:cantSplit/></w:trPr>'
@@ -153,7 +154,7 @@ for label, paras, extra in M.AFTER:
     section(label, paras)
     if extra == 'table':
         body.append(table(M.SCEN_TABLE, [3700, 650, 1150, 1150, 1050, 1000, 1000], total_rows=(len(M.SCEN_TABLE) - 1,)))
-        body.append('<w:p><w:pPr><w:spacing w:after="0"/></w:pPr></w:p>')
+        body.append('<w:p><w:pPr><w:spacing w:after="0" w:line="160" w:lineRule="exact"/><w:rPr><w:sz w:val="4"/></w:rPr></w:pPr></w:p>')
 body.append('<w:p><w:pPr><w:spacing w:before="60" w:after="0"/><w:jc w:val="both"/></w:pPr>'
             f'<w:r><w:rPr><w:color w:val="404040"/><w:sz w:val="13"/></w:rPr><w:t xml:space="preserve">{escape(M.SOURCES)}</w:t></w:r></w:p>')
 
