@@ -298,7 +298,7 @@ inp(k1, 'D30', 0.5)
 
 sec(k1, 'B32', 'D. Weighting by brand (Oceania and Regent show no cuts)')
 put(k1, 'B33', 'NCL brand share of NCLH ticket revenue', bold=True)
-put(k1, 'C33', 'Assumption; between the panel cross-check (row 36) and berth share (row 34)')
+put(k1, 'C33', 'Calibrated to reported 2025 revenue at 66% (section H); we use 65%')
 inp(k1, 'D33', 0.65)
 put(k1, 'B34', 'Cross-check: NCL brand share of 2027 berths (ceiling)')
 fx(k1, 'D34', "='Fleet Build'!K50/'Fleet Build'!K53")
@@ -350,6 +350,25 @@ for i, cut in enumerate([-0.05, -0.1, -0.145, -0.2]):
     inp(k1, f'C{r}', cut, assumption=False)
     for c in ['D', 'E', 'F', 'G', 'H']:
         fx(k1, f'{c}{r}', f'={c}$52*$F$27*($F$13*$C{r}+(1-$F$13)*$F$17)+(1-{c}$52)*$F$27*$F$18', PCT2)
+sec(k1, 'B60', 'H. Calibrating the NCL brand\'s share of ticket revenue to reported revenue (2025)')
+put(k1, 'B61', 'Reported ticket revenue per passenger day, 2025 ($)')
+fx(k1, 'D61', "='Operating Model'!G36/'Operating Model'!G30", DOL)
+put(k1, 'B62', 'Share of 2025 berths: NCL / Oceania / Regent')
+for c, r in zip('DEF', (50, 51, 52)):
+    fx(k1, f'{c}62', f"='Fleet Build'!I{r}/'Fleet Build'!I53")
+put(k1, 'B63', 'Median lowest fare per night: NCL / Oceania / Regent ($)')
+for c in 'DEF':
+    fx(k1, f'{c}63', f'={c}35', '$#,##0')
+put(k1, 'B64', 'Ticket revenue per passenger day from Oceania and Regent, if they sell near their lowest fare ($)')
+put(k1, 'C64', 'All-suite ships: narrow range of cabin prices')
+fx(k1, 'D64', '=E62*E63+F62*F63', DOL)
+put(k1, 'B65', 'NCL brand share of NCLH ticket revenue, calibrated', bold=True)
+put(k1, 'C65', '1 - luxury revenue / reported total')
+fx(k1, 'D65', '=1-D64/D61', PCT, bold=True)
+put(k1, 'B66', 'Implied NCL realized fare / its lowest fare')
+fx(k1, 'D66', '=(D61-D64)/(D62*D63)', '0.00x')
+note(k1, 'B67', 'The calibration does not use NCL\'s own (currently cut) fares. Passenger days are taken in proportion to berths; NCL ships carry '
+     'more third and fourth guests, which would push the NCL share up. Bounds: 58% if NCL also sold at its lowest fare (row 36), 83% berth share (row 34).')
 note(k1, 'B58', 'Blue on gray = assumptions; blue = data; black = formulas; green = links. Fare data: Fare Panel (allaboarddeals.com, '
      'Oct 2, 2026). Capacity: Fleet Build / Fleet Qtr Build.')
 
@@ -663,32 +682,51 @@ put(bb, 'B13', 'Checks: block 0 = DCF!E41, final = DCF!E42 (both should be 0)', 
 fx(bb, 'D13', '=D6-DCF!E41', MM)
 fx(bb, 'E13', '=D12-DCF!E42', MM)
 
-# Model vs Consensus bridge now links to the live build
+# Model vs Consensus bridge now links to the live build, ordered: consensus EPS -> Street EBITDA -> ours
 mc = wb['Model vs Consensus']
-for r in range(22, 40):
-    for c in 'BCDE':
+for r in range(22, 42):
+    for c in 'BCDEF':
         mc[f'{c}{r}'].value = None
-sec(mc, 'B22', '2027 Adjusted EBITDA bridge: consensus case to model base case (Bridge Build)')
+sec(mc, 'B22', '2027 Adjusted EBITDA bridge: consensus EPS case -> consensus case at run-rate costs (Street EBITDA) -> base case')
 put(mc, 'B23', 'Step', bold=True)
 put(mc, 'C23', '$mm', bold=True)
-put(mc, 'B24', 'Consensus case (bull inputs)')
+put(mc, 'D23', 'Street-implied', bold=True)
+put(mc, 'E23', 'Difference', bold=True)
+put(mc, 'B24', 'Consensus EPS case (bull inputs: Street revenue, unit costs -0.5%, fuel $760)')
 fx(mc, 'C24', "='Bridge Build'!D6", MM)
-for i, lab in enumerate(['2H26 exit rate', 'Thesis 1 -> KPI 1: fare cuts on unsold cabins (1H27)',
-                         'Thesis 2 -> KPI 1: late discounts on the booking shortfall (2H27)', 'Thesis 2 -> KPI 2: occupancy',
-                         'Other: onboard spend growth', 'Other: unit costs and fuel']):
-    put(mc, f'B{25 + i}', lab)
-    fx(mc, f'C{25 + i}', f"='Bridge Build'!E{7 + i}", MM)
-put(mc, 'B31', 'Model base case')
-fx(mc, 'C31', '=DCF!E42', MM)
-put(mc, 'B32', 'Check: steps sum to the difference')
-fx(mc, 'C32', '=C24+SUM(C25:C30)-C31', MM)
+put(mc, 'B25', 'Run-rate unit costs and fuel (+1.0%, $800; same in our case)')
+fx(mc, 'C25', "='Bridge Build'!E12", MM)
+put(mc, 'B26', 'Consensus case at run-rate costs (compare: Street-implied EBITDA)', bold=True)
+fx(mc, 'C26', '=C24+C25', MM, bold=True)
+fx(mc, 'D26', '=Consensus!C57', MM)
+fx(mc, 'E26', '=C26/D26-1', PCT)
+steps_mc = [('Fare panel -> 4Q26 exit rate (Q4 2026 sailings cut 36%)', 7),
+            ('Fare panel -> KPI 1: 1H27 ticket price (Thesis 1)', 8),
+            ('Deposits -> KPI 1: 2H27 late discounts on the shortfall (Thesis 2)', 9),
+            ('Deposits -> KPI 2: occupancy (Thesis 2)', 10),
+            ('Guest mix from discount-filled ships -> onboard spend (both theses)', 11)]
+for i, (lab, br) in enumerate(steps_mc):
+    put(mc, f'B{27 + i}', lab)
+    fx(mc, f'C{27 + i}', f"='Bridge Build'!E{br}", MM)
+put(mc, 'B32', 'Model base case', bold=True)
+fx(mc, 'C32', '=DCF!E42', MM, bold=True)
+put(mc, 'B33', 'Check: steps sum to the difference')
+fx(mc, 'C33', '=C26+SUM(C27:C31)-C32', MM)
+put(mc, 'B34', 'Calibration: consensus case 2027 revenue vs. Street revenue ($mm)')
+fx(mc, 'C34', "='Net Yield Build'!U34", MM)
+fx(mc, 'D34', '=Consensus!D6', MM)
+fx(mc, 'E34', '=C34/D34-1', PCT)
+put(mc, 'B35', 'Consensus EPS at Street EBITDA and the guided $870M interest')
+fx(mc, 'C35', '=Consensus!C58', DOL)
+note(mc, 'B36', 'Costs are separable from the revenue steps, so the order of the bridge does not change any step. Bridge Build reruns the '
+     'quarterly net yield one input group at a time; its checks (row 13) tie to DCF!E41 and DCF!E42.')
 
 # ---------------------------------------------------------------- 7. Thesis to KPIs (front map)
 tk = new_sheet('Thesis to KPIs', {'A': 2, 'B': 58, 'C': 26, 'D': 24, 'E': 18, 'F': 14, 'G': 14, 'H': 14, 'I': 13}, index=1)
 NY = "'Net Yield Build'!"
 bar(tk, 'B2', 'Thesis to KPIs: what the alternative data shows, which model inputs it moves, and where we differ from consensus', 'I')
-note(tk, 'B3', 'Net yield = occupancy x net revenue per passenger day. Our base case differs from the consensus case on two KPIs: ticket '
-     'price per passenger day (KPI 1) and occupancy (KPI 2). Onboard spend, unit costs and fuel also differ; they are listed separately.')
+note(tk, 'B3', 'Net yield = occupancy x net revenue per passenger day. Two data sets drive the view: the fare panel moves ticket price '
+     '(KPI 1) and deposits move occupancy (KPI 2) and late discounts. Unit costs are run-rate in both our case and the Street\'s EBITDA.')
 
 sec(tk, 'B5', 'A. FY2027: consensus case vs. our base case')
 for c, h in zip('CDE', ['Consensus case', 'Base case', 'Difference']):
@@ -726,86 +764,117 @@ for i, (lab, row, fmt) in enumerate(kq):
     for c, n in zip('CDEFGH', NYB_COLS):
         fx(tk, f'{c}{r}', f'={NY}{n}{row}', fmt)
 
-sec(tk, 'B24', 'C. Each thesis, from the data to the model')
-heads = ['Thesis', 'What the data shows', 'What it implies', 'KPI it moves', 'Consensus case', 'Ours', '2027 EBITDA ($mm)']
+sec(tk, 'B24', 'C. From the data to the model: the 2027 EBITDA bridge from the consensus case at run-rate costs')
+heads = ['Step', 'What the data shows', 'Model input it sets', 'KPI', 'Consensus case', 'Ours', '2027 EBITDA ($mm)']
 cols = ['B', 'C', 'D', 'E', 'F', 'G', 'H']
 for c, h in zip(cols, heads):
     put(tk, f'{c}25', h, bold=True, wrap=True)
 tk.row_dimensions[25].height = 28
+MC = "'Model vs Consensus'!"
 t_rows = [
-    ('Thesis 1: NCL is cutting price to fill Caribbean ships because it is losing share there',
-     f'="1H27 Caribbean fares "&TEXT({K1}F16,"0.0%")&" vs. peers "&TEXT({K1}F19,"0.0%")&"; NCL elsewhere "&TEXT({K1}F17,"0.0%")',
-     'Cuts hit the cabins NCL still has to sell for 1H27',
-     'KPI 1: 1H27 ticket price',
-     f'=AVERAGE({NY}N24:O24)', f'=AVERAGE({NY}N51:O51)', "='Model vs Consensus'!C26"),
-    ('Thesis 2: the price guarantee keeps guests from booking early',
-     f'="Deposits per future berth-day "&TEXT(Deposits!F26,"0.0%")&" y/y; since COVID they lead net yield by ~4 quarters ("&{K2}G87&" of "&{K2}G86&")"',
-     'A booking shortfall NCL fills late at a discount',
-     'KPI 1: 2H27 ticket price',
-     f'=AVERAGE({NY}P24:Q24)', f'=AVERAGE({NY}P51:Q51)', "='Model vs Consensus'!C27"),
-    ('Thesis 2 (continued)',
-     f'="Occupancy fell "&TEXT(-{K2}D17,"0.0")&" pts in 2Q26 with the indicator at "&TEXT({K2}D18,"0.0%")',
-     'Part of the shortfall sails empty',
-     'KPI 2: 2027 occupancy',
-     f'={NY}U20', f'={NY}U47', "='Model vs Consensus'!C28"),
+    ('Consensus case at run-rate costs', f'="Reproduces Street revenue ("&TEXT({MC}E34,"+0.0%;-0.0%")&") and EBITDA ("&TEXT({MC}E26,"+0.0%;-0.0%")&")"',
+     'Bull revenue drivers with our unit costs and fuel', '', '', '', f'={MC}C26'),
+    ('Fare panel: 4Q26 exit', f'="NCL Q4 2026 Caribbean sailings "&TEXT({K1}E16,"0%")&"; 77% of 7+ nights cut 20%+"',
+     '4Q26 net yield below the implied guide', 'Net yield 4Q26', f'={NY}M31', f'={NY}M58', f'={MC}C27'),
+    ('Fare panel: Thesis 1', f'="1H27 Caribbean fares "&TEXT({K1}F16,"0.0%")&" vs. peers "&TEXT({K1}F19,"0.0%")&"; luxury brands 0%"',
+     'Cuts applied to unsold cabins, NCL brand at 65% of ticket revenue', 'KPI 1: 1H27 ticket price',
+     f'=AVERAGE({NY}N24:O24)', f'=AVERAGE({NY}N51:O51)', f'={MC}C28'),
+    ('Deposits: Thesis 2 (price)', f'="Deposits per future berth-day "&TEXT(Deposits!F26,"0.0%")&"; lead net yield ~4 qtrs since COVID ("&{K2}G87&" of "&{K2}G86&")"',
+     '5-pt booking shortfall; 80% sold late at the close-in discount', 'KPI 1: 2H27 ticket price',
+     f'=AVERAGE({NY}P24:Q24)', f'=AVERAGE({NY}P51:Q51)', f'={MC}C29'),
+    ('Deposits: Thesis 2 (occupancy)', f'="2026: occupancy fell ~"&TEXT({K2}D19,"0.00")&" pts per 1% of indicator decline"',
+     '20% of the shortfall sails empty (half the 2026 relationship)', 'KPI 2: 2027 occupancy', f'={NY}U20', f'={NY}U47', f'={MC}C30'),
+    ('Both: guest mix', f'="1Q26: occupancy +2.3 pts on price cuts, onboard per guest "&TEXT(\'Quarterly (A)\'!I35/\'Quarterly (A)\'!E35-1,"0.0%")',
+     'Onboard spend growth 2% (2025 -0.3%, 1H26 ~+1%)', 'Onboard per guest y/y', f'={NY}N18', f'={NY}N45', f'={MC}C31'),
+    ('Our base case', '', '', '', f'={MC}C26', f'={MC}C32', f'={MC}C32'),
 ]
 for i, row in enumerate(t_rows):
     r = 26 + i
     for c, v in zip(cols, row):
         fmt = PCT if c in 'FG' else MM
+        if i in (0, 6) and c in 'FG':
+            fmt = MM
         if isinstance(v, str) and v.startswith('='):
-            fx(tk, f'{c}{r}', v, fmt)
+            fx(tk, f'{c}{r}', v, fmt, bold=i in (0, 6))
             tk[f'{c}{r}'].alignment = Alignment(wrap_text=True, vertical='top')
-        else:
-            put(tk, f'{c}{r}', v, wrap=True)
-    tk.row_dimensions[r].height = 58
-sec(tk, 'B30', 'Other differences (not part of either thesis)')
-others = [('Onboard spend growth per passenger day, 2027', f'={NY}N18', f'={NY}N45', "='Model vs Consensus'!C29",
-           '2025: -0.3%; 1H26: +1.0% (Quarterly (A))'),
-          ('Unit costs ex fuel per capacity day, 2027 y/y', "='Operating Model'!I11", "='Operating Model'!I12", "='Model vs Consensus'!C30",
-           '1H26 about flat; 3Q26 guide -0.9%; $225M savings plan'),
-          ('Fuel price per ton, net of hedges ($)', "='Operating Model'!I16", "='Operating Model'!I17", None, '2026 guide $780; Brent +63% y/y')]
-for i, (lab, a, b, eb, ev) in enumerate(others):
-    r = 31 + i
-    put(tk, f'B{r}', lab)
-    fx(tk, f'F{r}', a, '$#,##0' if 'Fuel' in lab else PCT)
-    fx(tk, f'G{r}', b, '$#,##0' if 'Fuel' in lab else PCT)
-    if eb:
-        fx(tk, f'H{r}', eb, MM)
-    put(tk, f'C{r}', ev)
-note(tk, 'B34', 'Unit costs and fuel share one bridge step (Model vs Consensus row 30).')
+        elif v:
+            put(tk, f'{c}{r}', v, wrap=True, bold=(c == 'B'))
+    tk.row_dimensions[r].height = 44
 
-sec(tk, 'B36', 'D. What each KPI is worth (base case, 2027)')
-put(tk, 'B37', '1 pt of ticket price per passenger day: EBITDA ($mm)')
-fx(tk, 'C37', f"={NY}U59*(1-{NY}U54)*0.01", MM)
-put(tk, 'B38', '1 pt of occupancy: EBITDA ($mm)')
-fx(tk, 'C38', f"={NY}U46*0.01*{NY}U56", MM)
-put(tk, 'B39', 'Value per share of $1M of 2027 EBITDA (at today\'s multiple)')
-fx(tk, 'C39', '=DCF!F25/DCF!L33', '$0.000')
-put(tk, 'D37', 'per share:')
-fx(tk, 'E37', '=C37*$C$39', DOL)
-put(tk, 'D38', 'per share:')
-fx(tk, 'E38', '=C38*$C$39', DOL)
+sec(tk, 'B34', 'Consensus EPS vs. Street EBITDA (not part of the theses)')
+put(tk, 'B35', 'Unit costs ex fuel per capacity day, 2027 y/y: consensus EPS case / ours')
+fx(tk, 'F35', "='Operating Model'!I11")
+fx(tk, 'G35', "='Operating Model'!I12")
+fx(tk, 'H35', f'={MC}C25', MM)
+put(tk, 'B36', 'Fuel per ton, net of hedges: consensus EPS case / ours')
+fx(tk, 'F36', "='Operating Model'!I16", '$#,##0')
+fx(tk, 'G36', "='Operating Model'!I17", '$#,##0')
+put(tk, 'B37', 'Consensus EPS at Street EBITDA and the guided interest')
+fx(tk, 'G37', f'={MC}C35', DOL)
+note(tk, 'B38', 'Consensus EPS ($1.46-1.67) needs unit costs to fall on top of the Street\'s EBITDA; the Street\'s own EBITDA matches run-rate costs.')
 
-put(tk, 'B40', 'Value per share on the two theses alone (consensus-case onboard, costs and fuel)')
-fx(tk, 'C40', "=((DCF!E42-'Model vs Consensus'!C29-'Model vs Consensus'!C30)*DCF!F25-DCF!F22)/DCF!L33", DOL)
-fx(tk, 'D40', '=C40/DCF!I2-1', PCT)
-sec(tk, 'B42', 'E. Dated checks: when each KPI gets tested')
+sec(tk, 'B40', 'D. What each KPI is worth, and valuation checks (base case, 2027)')
+put(tk, 'B41', '1 pt of ticket price per passenger day: EBITDA ($mm) / per share')
+fx(tk, 'C41', f"={NY}U59*(1-{NY}U54)*0.01", MM)
+fx(tk, 'D41', '=C41*$C$43', DOL)
+put(tk, 'B42', '1 pt of occupancy: EBITDA ($mm) / per share')
+fx(tk, 'C42', f"={NY}U46*0.01*{NY}U56", MM)
+fx(tk, 'D42', '=C42*$C$43', DOL)
+put(tk, 'B43', "Value per share of $1M of 2027 EBITDA (today's multiple)")
+fx(tk, 'C43', '=DCF!F25/DCF!L33', '$0.000')
+put(tk, 'B44', 'Value if unit costs fall 0.5% as consensus EPS implies')
+fx(tk, 'C44', f"=((DCF!E42-{MC}C25)*DCF!F25-DCF!F22)/DCF!L33", DOL)
+fx(tk, 'D44', '=C44/DCF!I2-1', PCT)
+put(tk, 'B45', 'Value at 9.0x on our EBITDA (multiple risk)')
+fx(tk, 'C45', '=(DCF!E42*9-DCF!F22)/DCF!L33', DOL)
+fx(tk, 'D45', '=C45/DCF!I2-1', PCT)
+put(tk, 'B46', 'EV / TTM EBITDA: Sep 2025 -> Mar 2026 (net yield turned negative)')
+fx(tk, 'C46', "='Multiple vs Net Yield'!H24", '0.0x')
+fx(tk, 'D46', "='Multiple vs Net Yield'!H26", '0.0x')
+
+sec(tk, 'B48', 'E. Dated checks: when each KPI gets tested')
 checks = [('Nov 4, 2026: 3Q26 10-Q', 'Sept 30 advance ticket sales vs. our $2.94B (KPI 2 shortfall)',
            f'="Below "&TEXT({K2}D58,"$#,##0")&"M supports; at or above "&TEXT({K2}D59,"$#,##0")&"M we cover"'),
           ('Late Feb 2027: first 2027 guide', 'Net yield guide vs. the consensus case (KPI 1 and KPI 2)',
-            f'="At or below flat supports; consensus case "&TEXT({NY}U31,"+0.0%")'),
+           f'="At or below flat supports; consensus case "&TEXT({NY}U31,"+0.0%")'),
           ('Monthly: fare panel re-run', '1H27 Caribbean cuts on unsold cabins (KPI 1)', 'Cuts back near peers would undo Thesis 1'),
-          ('May 2027: 1Q27 results', 'Reported ticket revenue per passenger day and occupancy', f'="Ours: occupancy "&TEXT({NY}N47,"0.0%")&", ticket price "&TEXT({NY}N51,"0.0%")')]
+          ('May 2027: 1Q27 results', 'Reported ticket revenue per passenger day and occupancy',
+           f'="Ours: occupancy "&TEXT({NY}N47,"0.0%")&", ticket price "&TEXT({NY}N51,"0.0%")')]
 for i, (d, what, test) in enumerate(checks):
-    r = 43 + i
+    r = 49 + i
     put(tk, f'B{r}', d)
     put(tk, f'C{r}', what)
     if test.startswith('='):
         fx(tk, f'G{r}', test, 'General')
     else:
         put(tk, f'G{r}', test)
-note(tk, 'B48', 'Green = links; black = formulas. Every number on this sheet comes from the KPI builds, the Net Yield Build or the DCF.')
+
+sec(tk, 'B54', 'F. Critiques we expect, and where the model answers them')
+put(tk, 'B55', 'Critique', bold=True)
+put(tk, 'C55', 'Answer', bold=True)
+crit = [
+    ('Lowest fares are not realized prices.', 'Realized ticket revenue per passenger day already fell 5.6% in 1H26 (KPI 2 Booking Build D7). Cuts are applied only to unsold cabins (KPI 1 Build row 27).'),
+    ('It is the war, or NCL simply moved capacity to the Caribbean.', 'Royal and Carnival also added Caribbean ships and held price (-1%, 0%); they are cutting Europe instead (Fare Panel A).'),
+    ('Oceania and Regent are a third of the revenue and are not cutting.', 'Cuts are weighted by brand: NCL at 65% of ticket revenue, calibrated to reported revenue at 66% (KPI 1 Build section H).'),
+    ('The deposit decline is just a shift to shorter cruises.', 'Short (3-5 night) sailings are about a third of 4Q26 Caribbean itineraries at NCL, Royal and Carnival alike; NCL cuts both lengths (Fare Panel C).'),
+    ('Deposits turned a year early, so the signal failed.', 'Since COVID the lead is about four quarters (7 of 8 at a 4-quarter lead vs. 6 of 10 at one); KPI 2 Build section F.'),
+    ('The theses do not explain the gap to consensus.', 'At run-rate costs the consensus case matches Street revenue and EBITDA; the full $208M gap from there is fare-panel and deposit driven (section C).'),
+    ('The shortfall size and empty-cabin share are made up.', 'Shortfall = midpoint of the deposit-implied 3-8 pt range; empty share is half the 2026 occupancy relationship (KPI 2 Build A-B).'),
+    ('The multiple could expand as the cycle bottoms.', 'At 9.0x our EBITDA is worth less than today\'s price; NCLH\'s multiple fell from 10.0x to 8.7x as net yield turned negative (section D).'),
+    ('Cost savings could beat the plan.', 'Shown: if unit costs fall 0.5%, value rises to the figure in D44, still below the share price.'),
+    ('Crowded short (20.7% of float).', 'Sizing: a third to start, add on oil-driven rallies, puts for part, stop above $19 (memo).'),
+]
+for i, (q, a) in enumerate(crit):
+    r = 56 + i
+    put(tk, f'B{r}', q, wrap=True)
+    put(tk, f'C{r}', a, wrap=True)
+    tk.merge_cells(f'C{r}:I{r}')
+    tk.row_dimensions[r].height = 28
+note(tk, 'B67', 'Green = links; black = formulas. Every number on this sheet comes from the KPI builds, the Net Yield Build or the DCF.')
+
+dcf = wb['DCF']
+fx(dcf, 'F22', "='Operating Model'!H88", MM0)
+put(dcf, 'B22', 'Net debt at YE2026E used in valuation (= model)')
 
 # ---------------------------------------------------------------- 8. front page, exhibits, sheet order
 mm = wb['Model>>>']

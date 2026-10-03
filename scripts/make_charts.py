@@ -103,28 +103,27 @@ ax.legend(frameon=False, fontsize=6.3, loc='lower left', bbox_to_anchor=(0.0, 1.
 finish(fig, ax, 'Exhibit 3: Deposits vs. net yield (% y/y)',
        'Deposits per future berth-day shifted 4 quarters. Dashed: 3Q-4Q26\nguide, then 1H27 model. Source: SEC XBRL; 8-Ks; team model.', 'ex3_deposits')
 
-# Exhibit 4: 2027 EBITDA bridge, consensus case to ours
+# Exhibit 4: 2027 EBITDA bridge, consensus case at run-rate costs (Street EBITDA) to ours
 mc = wb['Model vs Consensus']
-start = mc['C24'].value
-steps = [mc[f'C{r}'].value for r in range(25, 31)]
-end = mc['C31'].value
-names = ['Consensus\ncase', '2H26\nexit', 'Thesis 1\nprice', 'Thesis 2\nprice', 'Thesis 2\noccupancy', 'Onboard\nspend', 'Costs\nand fuel', 'Ours']
-kinds = ['total', 'other', 'thesis', 'thesis', 'thesis', 'other', 'other', 'total']
+start = mc['C26'].value
+steps = [mc[f'C{r}'].value for r in range(27, 32)]
+end = mc['C32'].value
+names = ['Consensus\n(run-rate)', '4Q26\nexit', '1H27\nprice', '2H27\nprice', 'Occupancy', 'Onboard\nmix', 'Ours']
+cols = [MID, INK, INK, DARK, DARK, '#8c8c8c', INK]
 fig, ax = plt.subplots(figsize=(3.3, 2.05))
-fig.subplots_adjust(left=0.1, right=0.99, top=0.88, bottom=0.25)
+fig.subplots_adjust(left=0.1, right=0.99, top=0.88, bottom=0.27)
 level = start
 ax.bar(0, start, color=MID, width=0.62)
-ax.text(0, start + 8, f'{start:,.0f}', ha='center', va='bottom', fontsize=6.3)
-for i, s in enumerate(steps, start=1):
-    color = INK if kinds[i] == 'thesis' else LIGHT
-    ax.bar(i, s, bottom=level, color=color, width=0.62)
-    ax.text(i, level + 8, f'{s:,.0f}', ha='center', va='bottom', fontsize=6.3)
-    level += s
-ax.bar(7, end, color=INK, width=0.62)
-ax.text(7, end + 8, f'{end:,.0f}', ha='center', va='bottom', fontsize=6.3)
-ax.set_ylim(2300, 2850)
-ax.set_xticks(range(8), names, fontsize=6.3)
+ax.text(0, start + 6, f'{start:,.0f}', ha='center', va='bottom', fontsize=6.3)
+for i, st_ in enumerate(steps, start=1):
+    ax.bar(i, st_, bottom=level, color=cols[i], width=0.62)
+    ax.text(i, level + 6, f'{st_:,.0f}', ha='center', va='bottom', fontsize=6.3)
+    level += st_
+ax.bar(6, end, color=INK, width=0.62)
+ax.text(6, end + 6, f'{end:,.0f}', ha='center', va='bottom', fontsize=6.3)
+ax.set_ylim(2350, 2720)
+ax.set_xticks(range(7), names, fontsize=6.2)
 ax.tick_params(axis='x', length=0)
 finish(fig, ax, 'Exhibit 4: 2027 EBITDA, consensus case to ours ($M)',
-       'Black: the two theses. Light gray: other differences. Source: team model (Bridge Build).', 'ex4_bridge')
+       'Black: fare panel. Dark gray: deposits. Gray: guest mix (both). Unit costs are\nrun-rate in both; consensus EPS also needs them to fall (another $107M).', 'ex4_bridge')
 print('charts written')

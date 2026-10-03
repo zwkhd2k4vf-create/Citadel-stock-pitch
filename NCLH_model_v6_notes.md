@@ -75,3 +75,17 @@ Both are single input cells on the KPI 2 tab. Change them only if you can defend
 
 - EV/EBITDA uses a hard-coded $15.8B year-end net debt, while the DCF uses the model's $15.88B (about $0.18/share).
 - **Raw itinerary file.** The fare panel in the workbook is a summary by line, region and window. A true itinerary-level tab (4,783 rows) needs the raw scrape; send the CSV and it can be rebuilt bottom-up.
+
+## Final pass
+
+- **The gap is now all revenue.** The consensus case reproduces Street 2027 revenue ($10.62B vs. $10.57B). At run-rate unit costs it also matches Street EBITDA ($2.68B vs. $2.69B).
+  - From there, the full $208M gap to our $2.47B comes from the two data sets:
+    - Fare panel: 4Q26 exit −$29M and 1H27 ticket price −$44M.
+    - Deposits: 2H27 price −$17M and occupancy −$76M.
+    - Guest mix of discount-filled ships: onboard spend −$42M.
+  - Consensus EPS also needs unit costs to fall 0.5% (another $107M). The Street's own EBITDA doesn't.
+  - Model vs Consensus rows 24–35 and memo Exhibit 4 show this.
+- **NCL brand weight is now calibrated (KPI 1 Build section H).** If Oceania and Regent sell near their lowest fares, NCL is 66% of the reported $265 of 2025 ticket revenue per passenger day. We use 65%.
+- **Year-end net debt is now linked to the model** ($15.88B, previously typed in as $15.8B). The forward multiple is 8.46x.
+  - New results: base $10.82 (−28%), bull $19.74, bear $6.24, probability-weighted $11.90 (−21%), DCF $8.26.
+- **Critiques and answers:** Thesis to KPIs section F covers ten likely critiques. They include lowest vs. realized fares, war vs. competition, brand weight, the short-cruise mix, the deposit lag, the gap to consensus, how the shortfall is sized, the multiple (9.0x gives $13.67), cost savings ($12.76 if unit costs fall 0.5%) and the crowded short.

@@ -3,7 +3,7 @@
   [
    "Narrative Summary:",
    [
-    "Recommendation: short NCLH at $15.05, starting at a third of a full position. Our base case is worth about $10.80 (−28%) and the probability-weighted value about $12 (−21%), against +32% if consensus is right. The market prices NCLH on net yield (ticket and onboard revenue, less commissions and onboard costs, per available berth-day), and the share price assumes net yield climbs back above its 2025 level. We think it falls again in 2027, and two sets of alternative data show why. A fare panel of 4,783 itineraries shows NCL cutting Caribbean fares where it is losing share to Royal Caribbean and Carnival; on the cabins NCL still has to sell, that lowers 1H27 ticket price per passenger day (KPI 1). NCL’s deposits show a booking shortfall that its Best Price Guarantee gives guests no reason to close, and since COVID deposits have reached net yield about four quarters later; that lowers 2027 occupancy (KPI 2) and keeps 2H27 prices from recovering. In our model the two KPIs take about $140M off 2027 EBITDA. With onboard spending and unit costs at recent run-rates, we get 2027 EBITDA of $2.47B against a Street-implied $2.69B, and EPS of $0.95 against $1.46–1.67."
+    "Recommendation: short NCLH at $15.05, starting at a third of a full position. Our base case is worth about $10.80 (−28%) and the probability-weighted value about $11.90 (−21%). The market prices NCLH on net yield (ticket and onboard revenue, less commissions and onboard costs, per available berth-day), and the share price assumes net yield climbs back above its 2025 level. We think it falls again in 2027, and two sets of alternative data show why. A fare panel of 4,783 itineraries shows NCL cutting Caribbean fares where it is losing share to Royal Caribbean and Carnival; applied to the cabins NCL still has to sell, that lowers ticket price per passenger day (KPI 1). NCL’s deposits show a booking shortfall that its Best Price Guarantee gives guests no reason to close, and since COVID deposits have reached net yield about four quarters later; that lowers 2027 occupancy (KPI 2) and keeps 2H27 prices from recovering. Our 2027 EBITDA of $2.47B is $221M below the Street’s $2.69B, and the two data sets account for almost all of that gap: lower ticket prices and occupancy, plus the lower onboard spending of guests won with discounts. Our EPS is $0.95; consensus of $1.46–1.67 is further off because it has not absorbed the September interest guide."
    ],
    null
   ],
@@ -24,16 +24,16 @@
   [
    "Market Expectations:",
    [
-    "Since 2024 NCLH’s EV/EBITDA has tracked net yield growth closely (r = 0.87 over ten quarters), and on the four days management changed its yield outlook the stock lost 27 points against Royal and Carnival. Working back from the $21.7B enterprise value at a 9% WACC, the price needs about $3.0B of steady-state EBITDA, which is management’s March guide and net yield back above its 2025 level (Exhibit 1). The Street is less demanding but still expects a recovery: consensus 2027 EPS of $1.46–1.67 implies about $2.7B of EBITDA, and the $18.80 average target needs $2.9B. At 8.1x trailing EBITDA the stock looks cheap against 10.9x in 2016–19, but that multiple sits on EBITDA we expect to fall.",
-    "Sentiment has turned faster than estimates. Ratings are 4 Buy, 15 Hold and 0 Sell (11, 4 and 0 a year ago) and short interest is 20.7% of float, yet consensus 2027 EPS moved only two cents when NCLH guided 2027 interest $0.35 a share higher on September 30. The bull argument is that the selloff was oil and the sector. Our regression puts 54% of the decline there, but NCLH moved no more than Carnival on the biggest oil days, and the NCL-specific 46% came on six company news days and did not reverse. When Brent fell 38% in May and June, NCLH rose 48% but recovered only half of its underperformance against peers, and the July guidance cut erased that."
+    "Since 2024 NCLH’s EV/EBITDA has tracked net yield growth closely (r = 0.87 over ten quarters), and on the four days management changed its yield outlook the stock lost 27 points against Royal and Carnival. Working back from the $21.7B enterprise value at a 9% WACC, the price needs about $3.0B of steady-state EBITDA, which is management’s March guide and net yield back above its 2025 level (Exhibit 1). The Street is less demanding but still expects a recovery: it models 2027 revenue of $10.6B and EBITDA of $2.69B, and the $18.80 average target needs $2.9B. At 8.1x trailing EBITDA the stock looks cheap against 10.9x in 2016–19, but that multiple sits on EBITDA we expect to fall.",
+    "Sentiment has turned faster than estimates. Ratings are 4 Buy, 15 Hold and 0 Sell (11, 4 and 0 a year ago) and short interest is 20.7% of float, yet consensus 2027 EPS moved only two cents when NCLH guided 2027 interest $0.35 a share higher on September 30; at the Street’s own EBITDA and the guided interest, EPS is about $1.41. The bull argument is that the selloff was oil and the sector. Our regression puts 54% of the decline there, but NCLH moved no more than Carnival on the biggest oil days, and the NCL-specific 46% came on six company news days and did not reverse."
    ],
    "ex1"
   ],
   [
    "Thesis 1: NCL is cutting prices because it is losing share in the Caribbean, and the cuts reach 1H27 revenue.",
    [
-    "The Street reads the discounting as a result of the war and of execution problems that the finished island and new ships will fix in 2027. We think the cause is competition. Every large line added Caribbean ships and a private island at the same time, and because a ship costs about the same to sail full or empty, the line with the weakest product fills its ships by cutting price. The fare data fits that. On October 2 we compared the lowest fare on 4,783 itineraries with each one’s 90-day average. NCL has cut 1H27 Caribbean sailings by a median 14.5% but Europe by only 2%, although two-thirds of its European guests fly in and face higher airfares. Royal and Carnival have held Caribbean prices and are discounting Europe instead (Exhibit 2). If the war were the cause, we would expect the opposite pattern. The cuts are also recent. NCL cut prices less often than Royal in 2025, but it went from 1 to 9 of the industry’s 10 largest monthly price cuts between December and October. The new product has not stopped them: sailings that call at NCL’s island are cut as much as its other Caribbean sailings, and its newest ships are cut 22% against 1% for Royal’s newest. NCL now prices below the budget brand: from Port Canaveral in 1H27 its lowest fare is $94 a night against $100 at Carnival and $118 at Royal, and 71% of its Caribbean itineraries sit at record-low fares against 45% at both rivals. Oceania and Regent show no cuts, so the problem is the NCL brand.",
-    "For the model, the cuts matter only for cabins NCL has not yet sold. With a normal booking curve and the booking shortfall from Thesis 2, about 45% of 1Q27 and 55% of 2Q27 cabins are still unsold, and 74% of NCL-brand capacity sails in the Caribbean in 1Q27. Weighting the NCL brand at 65% of ticket revenue, 1H27 ticket revenue per passenger day (KPI 1) falls 2.6% y/y in our model against 1.1% in the consensus case. The main risk to this view is that the cuts reverse before guests book. We re-run the fare panel monthly; cuts back near peers’ levels would undo it."
+    "The Street reads the discounting as a result of the war and of execution problems that the finished island and new ships will fix in 2027. We think the cause is competition. Every large line added Caribbean ships and a private island at the same time, and because a ship costs about the same to sail full or empty, the line with the weakest product fills its ships by cutting price. The fare data fits that. On October 2 we compared the lowest fare on 4,783 itineraries with each one’s 90-day average. NCL has cut 1H27 Caribbean sailings by a median 14.5% but Europe by only 2%, although two-thirds of its European guests fly in and face higher airfares. Royal and Carnival, which also added Caribbean ships, have held Caribbean prices and are discounting Europe instead (Exhibit 2). If the war were the cause, we would expect the opposite pattern. The cuts are also recent. NCL cut prices less often than Royal in 2025, but it went from 1 to 9 of the industry’s 10 largest monthly price cuts between December and October. The new product has not stopped them: sailings that call at NCL’s island are cut as much as its other Caribbean sailings, and its newest ships are cut 22% against 1% for Royal’s newest. NCL now prices below the budget brand: from Port Canaveral in 1H27 its lowest fare is $94 a night against $100 at Carnival and $118 at Royal, and 71% of its Caribbean itineraries sit at record-low fares against 45% at both rivals. Oceania and Regent show no cuts, so the problem is the NCL brand.",
+    "Lowest fares are not realized prices, but realized prices are moving the same way: NCLH’s ticket revenue per passenger day fell 5.6% in 1H26. For the model, the cuts matter only for cabins NCL has not yet sold. With a normal booking curve and the booking shortfall from Thesis 2, about 45% of 1Q27 and 55% of 2Q27 cabins are still unsold, and 74% of NCL-brand capacity sails in the Caribbean in 1Q27. We weight the NCL brand at 65% of ticket revenue: if Oceania and Regent sell near their lowest fares, as all-suite ships tend to, NCL must make up about 66% of the $265 of ticket revenue per passenger day NCLH reported for 2025. That takes 1H27 ticket price (KPI 1) to −2.6% y/y against −1.1% in the consensus case. The same data, with Q4 sailings cut 36%, puts 4Q26 net yield at −7.0%, half a point below the implied guide. The main risk is that the cuts reverse before guests book; we re-run the fare panel monthly."
    ],
    "ex2"
   ]
@@ -42,21 +42,27 @@
   [
    "Thesis 2: NCL’s booking shortfall is already in its deposits, and deposits reach net yield about a year later.",
    [
-    "The consensus case has net yield up about 3% in 2H27, helped by easy comparisons and by base-loading: opening sailings at lower fares and raising them as ships fill. That needs guests who book early because they expect prices to rise. NCL’s Best Price Guarantee removes the reason to: before final payment a booked guest can move to any lower fare, and after it a guest on a cruise of six nights or more gets an upgrade or future-cruise credit for the difference, while Royal offers nothing after final payment. NCL has also shown guests that it cuts late: 77% of its 4Q26 Caribbean sailings of seven nights or more have been cut 20% or more. Chidsey has said NCL was “holding price too high, too far out,” but filling ships with price has not worked either: in 1Q26 occupancy rose 2.3 points and net yield still fell 1.0%.",
-    "The shortfall is already visible. Deposits per future berth-day are down 8.3% y/y, the seventh decline in a row, while Royal’s and Carnival’s are growing, and NCL says it is “below its optimal booked position for the next 12 months.” What makes this useful is that the lag from deposits to net yield is predictable. Guests pay deposits when they book, so deposits move first. Before COVID the lead was one to two quarters. Since COVID guests book further ahead (advance ticket sales are about a third of annual revenue, against a quarter in 2016–18), and the lead has stretched to about four quarters: deposits turned negative in December 2024 and net yield followed in 1Q26. At a four-quarter lead the indicator has called the direction of net yield in 5 of 6 reported quarters, and the 3Q26 guide and 4Q26 implied figure fit as well (Exhibit 3). On that lag, the March and June readings fall on 1Q27 and 2Q27, the quarters consensus expects to recover. A simple fit over those eight quarters points to 1H27 net yield of about −4%, against −2.6% in our model and −0.2% in the consensus case.",
-    "In the model we size the shortfall from deposits: if booked fares fell as much as realized fares (−5.6%), about 3 points fewer cabins are booked; if booked fares were flat, about 8. We use 5. We assume 20% of those cabins sail empty, about half of what the 2026 link between deposits and occupancy implies, and the rest sell late at NCL’s current close-in discount of about 25%. That puts 2027 occupancy (KPI 2) at 102.1%, down again from 2026 and a point below the consensus case, and takes about 0.9 points off 2H27 ticket price. The first test is the November 4 10-Q: September 30 advance ticket sales below $2.97B support this, and at $3.11B or more we would cover."
+    "The consensus case has net yield up about 3% in 2H27, helped by easy comparisons and by base-loading: opening sailings at lower fares and raising them as ships fill. That needs guests who book early because they expect prices to rise. NCL’s Best Price Guarantee removes the reason to: before final payment a booked guest can move to any lower fare, and after it a guest on a cruise of six nights or more gets an upgrade or future-cruise credit for the difference, while Royal offers nothing after final payment. NCL has also shown guests that it cuts late: 77% of its 4Q26 Caribbean sailings of seven nights or more have been cut 20% or more. Filling ships late with price has costs beyond the fare: in 1Q26 occupancy rose 2.3 points, but net yield still fell 1.0% and onboard revenue per passenger day fell 2.9%, because guests who buy on discount spend less on board.",
+    "The shortfall is already visible. Deposits per future berth-day are down 8.3% y/y, the seventh decline in a row, while Royal’s and Carnival’s are growing, and NCL says it is “below its optimal booked position for the next 12 months.” This is not a shift to shorter cruises, which book later: about a third of 4Q26 Caribbean itineraries are 3–5 nights at NCL, Royal and Carnival alike, and NCL is cutting both lengths. The lag from deposits to net yield is also predictable. Guests pay deposits when they book, so deposits move first. Before COVID the lead was one to two quarters. Since COVID guests book further ahead (advance ticket sales are about a third of annual revenue, against a quarter in 2016–18), and the lead has stretched to about four quarters: deposits turned negative in December 2024 and net yield followed in 1Q26. At a four-quarter lead the indicator has called the direction of net yield in 5 of 6 reported quarters, and the 3Q26 guide and 4Q26 implied figure fit as well (Exhibit 3). On that lag, the March and June readings fall on 1Q27 and 2Q27, the quarters consensus expects to recover. A simple fit over those eight quarters points to 1H27 net yield of about −4%, against −2.6% in our model and −0.2% in the consensus case.",
+    "In the model we size the shortfall from deposits: if booked fares fell as much as realized fares, about 3 points fewer cabins are booked; if booked fares were flat, about 8. We use 5. We assume 20% of those cabins sail empty, about half of what the 2026 link between deposits and occupancy implies, and the rest sell late at NCL’s current close-in discount of about 25%. That puts 2027 occupancy (KPI 2) at 102.1%, a point below the consensus case, takes about 0.9 points off 2H27 ticket price and holds onboard spending growth to 2% against 3.5% (it fell 0.3% in 2025 and rose about 1% in 1H26)."
    ],
    "ex3"
   ]
  ],
  "SPLIT_LABEL": "From the data to the model:",
- "SPLIT_TEXT": "Each data set moves one KPI, and each KPI is a line in our quarterly net yield build (net yield = occupancy × revenue per passenger day). The fare panel sets the price cut on unsold cabins (KPI 1); deposits set the booking shortfall, which shows up as empty cabins (KPI 2) and as late discounts on the rest. Together they take $137M off 2027 EBITDA (Exhibit 4). The rest of our gap to the consensus case is not part of either thesis: onboard spending grows 2% in our model (it fell 0.3% in 2025 and rose about 1% in 1H26) against 3.5%, and unit costs rise 1% against a 0.5% decline. On the two theses alone, the shares are worth about $13.50 (−10%).",
+ "SPLIT_TEXT": "Each data set moves one KPI in our quarterly net yield build (net yield = occupancy × revenue per passenger day). Our consensus case reproduces the Street’s 2027 revenue ($10.6B) and, at run-rate unit costs, its EBITDA ($2.68B against $2.69B). We use the same costs, so the whole $208M gap to our $2.47B is revenue that the fare panel and deposits point to (Exhibit 4). Consensus EPS needs more: unit costs falling 0.5% in 2027, worth another $107M, on top of the Street’s EBITDA.",
  "KPI_TABLE": [
   [
-   "Alternative data → KPI (2027)",
+   "Alternative data → model input",
    "Consensus case",
    "Ours",
    "EBITDA ($M)"
+  ],
+  [
+   "Fare panel → 4Q26 net yield (exit rate)",
+   "−6.0%",
+   "−7.0%",
+   "−29"
   ],
   [
    "Fare panel → KPI 1: 1H27 ticket price y/y",
@@ -65,68 +71,49 @@
    "−44"
   ],
   [
-   "Deposits → KPI 2: occupancy",
-   "103.1%",
-   "102.1%",
-   "−76"
-  ],
-  [
    "Deposits → KPI 1: 2H27 ticket price y/y",
    "+0.3%",
    "−0.6%",
    "−17"
   ],
   [
-   "Other: onboard spend per guest y/y",
+   "Deposits → KPI 2: 2027 occupancy",
+   "103.1%",
+   "102.1%",
+   "−76"
+  ],
+  [
+   "Both → onboard spend per guest y/y",
    "+3.5%",
    "+2.0%",
    "−42"
   ],
   [
-   "Other: unit costs y/y / fuel per ton",
-   "−0.5% / $760",
-   "+1.0% / $800",
-   "−107"
-  ],
-  [
-   "2H26 exit rate",
-   "",
-   "",
-   "−29"
-  ],
-  [
-   "2027 EBITDA",
-   "$2.79B",
+   "2027 EBITDA (run-rate unit costs in both)",
+   "$2.68B",
    "$2.47B",
-   "−315"
+   "−208"
   ]
  ],
  "AFTER": [
   [
    "Valuation and risk/reward:",
    [
-    "We value NCLH on 2027 EBITDA at today’s 8.4x forward multiple, less $15.8B of year-end net debt. Our $2.47B gives $10.83 a share (−28%), and a DCF of 2027–30 cash flows gives $8.11. Leverage widens the range of outcomes: each point of 2027 ticket price is worth about $0.90 a share and each point of occupancy about $1.40. If consensus is right and the stock re-rates to 9x, it is worth about $19.90 (+32%); if discounting spreads into 2H27, about $6.30 (−58%). Weighted 25/50/25, value is about $12 (−21%). Net debt also keeps rising in our model, to $17.7B (7.2x EBITDA) at the end of 2027, as newbuild payments continue."
+    "We value NCLH on 2027 EBITDA at today’s 8.5x forward multiple, less $15.9B of year-end net debt. Our $2.47B gives $10.82 a share (−28%), and a DCF of 2027–30 cash flows gives $8.26. Each point of 2027 ticket price is worth about $0.90 a share and each point of occupancy about $1.40. If consensus EPS is right, which needs the Street’s revenue and falling unit costs, and the stock re-rates to 9x, it is worth about $19.70 (+31%); if discounting spreads into 2H27, about $6.20 (−59%). Weighted 25/50/25, value is about $11.90 (−21%). The multiple is the main valuation risk: at 9.0x our EBITDA is worth about $13.70 (−9%). We use today’s multiple because NCLH’s has moved with net yield, falling from 10.0x to 8.7x between September 2025 and March 2026 as net yield turned negative. If cost savings let unit costs fall 0.5%, value rises to about $12.80 (−15%)."
    ],
    "table"
   ],
   [
-   "When we would cover:",
+   "Catalysts and when we would cover:",
    [
-    "We would close the position if the data turns against us, whatever the price: September 30 advance ticket sales of $3.11B or more, a fare-panel re-run showing NCL’s 1H27 Caribbean cuts back near Royal’s and Carnival’s, or a February guide for 2027 net yield above +1%. On price, we would take most of the position off near $11, where the stock prices our base case and the remaining downside no longer pays for the squeeze risk."
-   ],
-   null
-  ],
-  [
-   "Catalysts:",
-   [
-    "November 4 (3Q26 results): earnings should beat ($0.90 guided against $0.83 consensus), so the number to watch is September 30 advance ticket sales, which we expect at $2.94B (−7% y/y). A beat on 3Q26 does not test the thesis, because those cruises were sold before the cuts. Late February: the first 2027 guide, which we expect at or below flat net yield against +1.6% in the consensus case. Monthly: our fare-panel re-run on 1H27 sailings. May 2027 (1Q27 results): we model occupancy of 101.8% and ticket price per passenger day down 2.8%."
+    "November 4 (3Q26): earnings should beat ($0.90 guided against $0.83), but those cruises were sold before the cuts; the number to watch is September 30 advance ticket sales, which we expect at $2.94B (−7% y/y). Late February: the first 2027 guide, which we expect at or below flat net yield against +1.6% in the consensus case. May 2027: 1Q27 results, where we model occupancy of 101.8% and ticket price per passenger day down 2.8%. We would cover on the data, whatever the price: advance ticket sales of $3.11B or more, a fare-panel re-run showing NCL’s 1H27 Caribbean cuts back near peers’, or a 2027 guide above +1%."
    ],
    null
   ],
   [
    "Risks and sizing:",
    [
-    "The main risk is a squeeze. 95M shares are short (5.7 days to cover), and the stock rose 48% in six weeks this spring when oil fell. About half of NCLH’s moves follow oil and its peers, so we would start with a third of the position, add on oil- or ceasefire-driven rallies and around November 4 and February, hold part of it in puts, and stop out above $19, where shorts added at about $18 are under water and the bull case begins. Other risks: Elliott’s standstill ends in February, cost savings beyond the $225M identified would offset our cost assumption, and the fare panel is a snapshot, so the cuts could reverse. We could also be early: in this cycle deposits turned down about a year before net yield did, so the 2027 shortfall may show up later than our quarterly path assumes."
+    "The main risk is a squeeze. 95M shares are short (5.7 days to cover), and the stock rose 48% in six weeks this spring when oil fell. About half of NCLH’s moves follow oil and its peers, so we would start with a third of the position, add on oil- or ceasefire-driven rallies and around November 4 and February, hold part of it in puts, and stop out above $19, where shorts added at about $18 are under water and the bull case begins. Elliott could push for a sale, though net debt above 5x EBITDA makes a buyout hard to finance. We could also be early: in this cycle deposits turned about a year before net yield."
    ],
    null
   ]
@@ -142,21 +129,21 @@
    "vs. $15.05"
   ],
   [
-   "Bull: consensus is right and the stock re-rates",
+   "Bull: consensus EPS is right and the stock re-rates",
    "25%",
    "+1.6%",
    "$2.79B",
    "9.0x",
-   "$19.92",
-   "+32%"
+   "$19.74",
+   "+31%"
   ],
   [
    "Base: our view",
    "50%",
    "−0.7%",
    "$2.47B",
-   "8.4x",
-   "$10.83",
+   "8.5x",
+   "$10.82",
    "−28%"
   ],
   [
@@ -164,9 +151,9 @@
    "25%",
    "−2.6%",
    "$2.22B",
-   "8.4x",
-   "$6.27",
-   "−58%"
+   "8.5x",
+   "$6.24",
+   "−59%"
   ],
   [
    "Probability-weighted",
@@ -174,7 +161,7 @@
    "",
    "",
    "",
-   "$11.96",
+   "$11.90",
    "−21%"
   ]
  ],
